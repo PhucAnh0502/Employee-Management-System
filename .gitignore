@@ -2,7 +2,7 @@
 node_modules/
 
 # Bỏ qua file môi trường (chứa API keys, thông tin nhạy cảm)
-.env
+/server/.env
 .env.local
 .env.development
 .env.production
