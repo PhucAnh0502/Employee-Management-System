@@ -8,7 +8,7 @@ const employeeSchema = new mongoose.Schema({
     gender: {type: String},
     maritalStatus: {type: String},
     designation: {type: String},
-    department: {type: Schema.Types.ObjectId, ref: "department", required: true},
+    department: {type: Schema.Types.ObjectId, ref: "Department", required: true},
     salary: {type: Number, required : true},
     createAt: {type: Date, default: Date.now},
     updateAt: {type: Date, default: Date.now},
