@@ -52,7 +52,7 @@ export const columns = [
   {
     name: "Action",
     selector: (row) => row.action,
-    center : "true"
+    center: "true",
   },
 ];
 
@@ -68,7 +68,10 @@ export const EmployeeButtons = ({ _id }) => {
         View
       </button>
 
-      <button className="flex-1 px-5 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all duration-300 ease-in-out transform hover:scale-105 shadow-md">
+      <button
+        className="flex-1 px-5 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all duration-300 ease-in-out transform hover:scale-105 shadow-md"
+        onClick={() => navigate(`/admin-dashboard/employees/edit/${_id}`)}
+      >
         Edit
       </button>
 
