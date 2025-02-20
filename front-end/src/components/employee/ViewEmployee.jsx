@@ -92,7 +92,14 @@ const ViewEmployee = () => {
           </div>
         </div>
       ) : (
-        <div className="text-center text-gray-600">Loading...</div>
+        <div className="flex justify-center items-center h-screen">
+          <div className="text-center">
+            <div className="w-12 h-12 border-4 border-teal-500 rounded-full animate-spin border-t-transparent mb-4"></div>
+            <p className="text-lg font-semibold text-teal-500 animate-pulse">
+              Loading...
+            </p>
+          </div>
+        </div>
       )}
     </>
   );

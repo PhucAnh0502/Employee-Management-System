@@ -61,9 +61,14 @@ const EmployeeList = () => {
   return (
     <>
       {empLoading ? (
-        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
-          <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-teal-500"></div>
+        <div className="flex justify-center items-center h-screen">
+        <div className="text-center">
+          <div className="w-12 h-12 border-4 border-teal-500 rounded-full animate-spin border-t-transparent mb-4"></div>
+          <p className="text-lg font-semibold text-teal-500 animate-pulse">
+            Loading...
+          </p>
         </div>
+      </div>
       ) : (
         <div className="p-5">
           <div className="text-center">
