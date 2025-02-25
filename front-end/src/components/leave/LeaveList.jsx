@@ -34,7 +34,7 @@ const LeaveList = () => {
     fetchLeaves();
   }, []);
 
-  const handleFilter = (e) => {
+  const handleFilter = async (e) => {
     const searchTerm = e.target.value.toLowerCase();
     const filteredRecords = leaves.filter((leave) =>
       leave.status.toLowerCase().includes(searchTerm)
