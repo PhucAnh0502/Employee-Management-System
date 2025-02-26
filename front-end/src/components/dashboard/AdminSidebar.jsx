@@ -76,7 +76,7 @@ const AdminSidebar = () => {
           <span className="text-lg">Salary</span>
         </NavLink>
         <NavLink
-          to="/admin-dashboard/settings"
+          to="/admin-dashboard/setting"
           className={({ isActive }) =>
             `${
               isActive ? "bg-teal-500" : "hover:bg-teal-700"

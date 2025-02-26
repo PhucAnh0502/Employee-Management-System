@@ -100,6 +100,11 @@ function App() {
             path="/admin-dashboard/leaves/:id"
             element={<LeaveDetail />}
           ></Route>
+
+          <Route
+            path="/admin-dashboard/setting"
+            element={<Setting />}
+          ></Route>
         </Route>
         {/* Employee Dashboard */}
         <Route
