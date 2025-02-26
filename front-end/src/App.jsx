@@ -82,6 +82,11 @@ function App() {
           ></Route>
 
           <Route
+            path="/admin-dashboard/employees/leaves/:id"
+            element={<LeaveList />}
+          ></Route>
+
+          <Route
             path="/admin-dashboard/salary/add"
             element={<AddSalary />}
           ></Route>
@@ -115,7 +120,7 @@ function App() {
           ></Route>
 
           <Route
-            path="/employee-dashboard/leaves"
+            path="/employee-dashboard/leaves/:id"
             element={<LeaveList />}
           ></Route>
 
