@@ -5,6 +5,8 @@ import { columns, LeaveButtons } from "../../utils/LeaveHelper";
 
 const LeaveTable = () => {
   const [leaves, setLeaves] = useState(null);
+  const [filteredLeaves, setFilteredLeaves] = useState(null);
+
   const fetchLeaves = async () => {
     try {
       const response = await axios.get("http://localhost:5000/api/leave", {
@@ -29,8 +31,8 @@ const LeaveTable = () => {
           status: leave.status,
           action: <LeaveButtons Id={leave._id} />,
         }));
-        console.log(data);
         setLeaves(data);
+        setFilteredLeaves(data);
       }
     } catch (err) {
       if (err.response && !err.response.data.success) {
@@ -44,9 +46,23 @@ const LeaveTable = () => {
     fetchLeaves();
   }, []);
 
+  const filterByInput = (e) => {
+    const data = leaves.filter((leave) =>
+      leave.name.toLowerCase().includes(e.target.value.toLowerCase())
+    );
+    setFilteredLeaves(data);
+  };
+
+  const filterByButton = (status) => {
+    const data = leaves.filter((leave) =>
+      leave.status.toLowerCase().includes(status.toLowerCase())
+    );
+    setFilteredLeaves(data);
+  };
+
   return (
     <>
-      {leaves ? (
+      {filteredLeaves ? (
         <div className="p-8 bg-white min-h-screen shadow-lg">
           <div className="text-center mb-10">
             <h3 className="text-3xl font-bold text-gray-800">Manage Leaves</h3>
@@ -58,16 +74,25 @@ const LeaveTable = () => {
               type="text"
               placeholder="Search by Name"
               className="px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-transparent transition-all w-64"
-              // onChange={handleFilter}
+              onChange={filterByInput}
             />
             <div className="space-x-4">
-              <button className="px-4 py-2 bg-teal-600 text-white rounded-lg hover:bg-teal-700 focus:outline-none focus:ring-2 focus:ring-teal-500 focus:ring-offset-2 transition-all">
+              <button
+                className="px-4 py-2 bg-teal-600 text-white rounded-lg hover:bg-teal-700 focus:outline-none focus:ring-2 focus:ring-teal-500 focus:ring-offset-2 transition-all"
+                onClick={() => filterByButton("Pending")}
+              >
                 Pending
               </button>
-              <button className="px-4 py-2 bg-teal-600 text-white rounded-lg hover:bg-teal-700 focus:outline-none focus:ring-2 focus:ring-teal-500 focus:ring-offset-2 transition-all">
+              <button
+                className="px-4 py-2 bg-teal-600 text-white rounded-lg hover:bg-teal-700 focus:outline-none focus:ring-2 focus:ring-teal-500 focus:ring-offset-2 transition-all"
+                onClick={() => filterByButton("Approved")}
+              >
                 Approved
               </button>
-              <button className="px-4 py-2 bg-teal-600 text-white rounded-lg hover:bg-teal-700 focus:outline-none focus:ring-2 focus:ring-teal-500 focus:ring-offset-2 transition-all">
+              <button
+                className="px-4 py-2 bg-teal-600 text-white rounded-lg hover:bg-teal-700 focus:outline-none focus:ring-2 focus:ring-teal-500 focus:ring-offset-2 transition-all"
+                onClick={() => filterByButton("Rejected")}
+              >
                 Rejected
               </button>
             </div>
@@ -77,7 +102,7 @@ const LeaveTable = () => {
           <div className="mt-8">
             <DataTable
               columns={columns}
-              data={leaves}
+              data={filteredLeaves}
               pagination
               className="border border-gray-200 rounded-lg overflow-hidden"
             />
