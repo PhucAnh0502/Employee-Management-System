@@ -60,4 +60,45 @@ const getLeaves = async (req, res) => {
   }
 };
 
-export { addLeave, getLeave, getLeaves };
+const getLeaveDetail = async (req, res) => {
+  try {
+    const {id} = req.params
+    const leave = await Leave.findById({_id : id}).populate({
+      path: "employeeId",
+      populate: [
+        {
+          path: "department",
+          select: "dep_name",
+        },
+        {
+          path: "userId",
+          select: "name profileImage",
+        },
+      ],
+    });
+    return res.status(200).json({ success: true, leave });
+  } catch (err) {
+    return res
+      .status(500)
+      .json({ success: false, error: "Get Leave Details Server Error" });
+  }
+}
+
+const updateLeave = async (req, res) => {
+  try {
+    const {id} = req.params
+    const leave = await Leave.findByIdAndUpdate({_id: id}, {status : req.body.status})
+    if(!leave){
+      return res
+      .status(404)
+      .json({ success: false, error: "Leave Not Found" });
+    }
+    return res.status(200).json({ success: true}); 
+  } catch (err) {
+    return res
+      .status(500)
+      .json({ success: false, error: "Update Leave Status Server Error" });
+  }
+}
+
+export { addLeave, getLeave, getLeaves, getLeaveDetail, updateLeave };

@@ -20,11 +20,13 @@ import LeaveList from "./components/leave/LeaveList";
 import AddLeave from "./components/leave/AddLeave";
 import Setting from "./components/EmployeeDashboard/Setting";
 import LeaveTable from "./components/leave/LeaveTable";
+import LeaveDetail from "./components/leave/LeaveDetail";
 
 function App() {
   return (
     <BrowserRouter>
       <Routes>
+        {/* Admin Dashboard */}
         <Route path="/" element={<Navigate to={"/admin-dashboard"} />}></Route>
         <Route path="/login" element={<Login />}></Route>
         <Route
@@ -88,7 +90,13 @@ function App() {
             path="/admin-dashboard/leaves"
             element={<LeaveTable />}
           ></Route>
+
+          <Route
+            path="/admin-dashboard/leaves/:id"
+            element={<LeaveDetail />}
+          ></Route>
         </Route>
+        {/* Employee Dashboard */}
         <Route
           path="/employee-dashboard"
           element={

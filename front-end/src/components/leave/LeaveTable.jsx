@@ -22,9 +22,10 @@ const LeaveTable = () => {
           name: leave.employeeId.userId.name,
           leaveType: leave.leaveType,
           department: leave.employeeId.department.dep_name,
-          days:
-            new Date(leave.endDate).getDate() -
-            new Date(leave.startDate).getDate(),
+          days: Math.ceil(
+            (new Date(leave.endDate) - new Date(leave.startDate)) /
+              (1000 * 60 * 60 * 24)
+          ),
           status: leave.status,
           action: <LeaveButtons Id={leave._id} />,
         }));
@@ -46,34 +47,40 @@ const LeaveTable = () => {
   return (
     <>
       {leaves ? (
-        <div className="p-6 bg-white h-screen shadow-lg">
-          <div className="text-center mb-8">
-            <h3 className="text-2xl font-bold text-gray-800">Manage Leaves</h3>
+        <div className="p-8 bg-white min-h-screen shadow-lg">
+          <div className="text-center mb-10">
+            <h3 className="text-3xl font-bold text-gray-800">Manage Leaves</h3>
           </div>
 
           {/* Search and Action Leave Button */}
-          <div className="flex justify-between items-center mb-6">
+          <div className="flex justify-between items-center mb-8">
             <input
               type="text"
               placeholder="Search by Name"
-              className="px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-transparent transition-all"
-              //   onChange={handleFilter}
+              className="px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-transparent transition-all w-64"
+              // onChange={handleFilter}
             />
-            <div className="space-x-3">
-              <button className="px-2 py-1 bg-teal-600 text-white hover:bg-teal-700">
+            <div className="space-x-4">
+              <button className="px-4 py-2 bg-teal-600 text-white rounded-lg hover:bg-teal-700 focus:outline-none focus:ring-2 focus:ring-teal-500 focus:ring-offset-2 transition-all">
                 Pending
               </button>
-              <button className="px-2 py-1 bg-teal-600 text-white hover:bg-teal-700">
+              <button className="px-4 py-2 bg-teal-600 text-white rounded-lg hover:bg-teal-700 focus:outline-none focus:ring-2 focus:ring-teal-500 focus:ring-offset-2 transition-all">
                 Approved
               </button>
-              <button className="px-2 py-1 bg-teal-600 text-white hover:bg-teal-700">
+              <button className="px-4 py-2 bg-teal-600 text-white rounded-lg hover:bg-teal-700 focus:outline-none focus:ring-2 focus:ring-teal-500 focus:ring-offset-2 transition-all">
                 Rejected
               </button>
             </div>
           </div>
 
-          <div className="mt-5">
-            <DataTable columns={columns} data={leaves} pagination />
+          {/* DataTable */}
+          <div className="mt-8">
+            <DataTable
+              columns={columns}
+              data={leaves}
+              pagination
+              className="border border-gray-200 rounded-lg overflow-hidden"
+            />
           </div>
         </div>
       ) : (
