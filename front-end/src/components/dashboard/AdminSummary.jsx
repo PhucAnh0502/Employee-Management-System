@@ -1,8 +1,44 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import SummaryCard from './SummaryCard'
+import axios from 'axios'
 import { FaBuilding, FaCheckCircle, FaFileAlt, FaHourglassHalf, FaMoneyBillWave, FaTimesCircle, FaUser } from 'react-icons/fa'
 
 const AdminSummary = () => {
+  const [summary, setSummary] = useState(null)
+
+  useEffect(() => {
+    const fetchSummary = async () => {
+      try {
+        const summary = await axios.get('http://localhost:5000/api/dashboard/summary', {
+          headers: {
+            "Authorization" : `Bearer ${localStorage.getItem('token')}`
+          }
+        })
+        console.log(summary)
+        setSummary(summary.data)
+      } catch (err) {
+        if(err.response){
+          alert(err.response.data.error)
+        }
+        console.log(err.message)
+      }
+    }
+    fetchSummary()
+  }, [])
+
+  if(!summary){
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <div className="text-center">
+          <div className="w-12 h-12 border-4 border-teal-500 rounded-full animate-spin border-t-transparent mb-4"></div>
+          <p className="text-lg font-semibold text-teal-500 animate-pulse">
+            Loading...
+          </p>
+        </div>
+      </div>
+    )
+  }
+
   return (
     <div className="p-6">
       {/* Dashboard Overview */}
@@ -14,19 +50,19 @@ const AdminSummary = () => {
         <SummaryCard
           icon={<FaUser />}
           text="Total Employees"
-          number={12}
+          number={summary.totalEmployees}
           color="bg-teal-600"
         />
         <SummaryCard
           icon={<FaBuilding />}
           text="Total Departments"
-          number={5}
+          number={summary.totalDepartments}
           color="bg-yellow-600"
         />
         <SummaryCard
           icon={<FaMoneyBillWave />}
           text="Monthly Pay"
-          number={2500}
+          number={summary.totalSalary}
           color="bg-red-600"
         />
       </div>
@@ -41,25 +77,25 @@ const AdminSummary = () => {
           <SummaryCard
             icon={<FaFileAlt />}
             text="Leave Applied"
-            number={5}
+            number={summary.leaveSummary.appliedFor}
             color="bg-teal-600"
           />
           <SummaryCard
             icon={<FaCheckCircle />}
             text="Leave Approved"
-            number={2}
+            number={summary.leaveSummary.approved}
             color="bg-green-600"
           />
           <SummaryCard
             icon={<FaHourglassHalf />}
             text="Leave Pending"
-            number={4}
+            number={summary.leaveSummary.pending}
             color="bg-yellow-600"
           />
           <SummaryCard
             icon={<FaTimesCircle />}
             text="Leave Rejected"
-            number={1}
+            number={summary.leaveSummary.rejected}
             color="bg-red-600"
           />
         </div>
