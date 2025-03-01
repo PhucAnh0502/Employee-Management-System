@@ -4,10 +4,10 @@ import {addLeave, getLeave, getLeaves, getLeaveDetail, updateLeave} from '../con
 
 const router = express.Router()
 
-router.get('/', authMiddleware, getLeaves)
 router.post('/add', authMiddleware, addLeave)
-router.get('/:id', authMiddleware, getLeave)
-router.put('/:id', authMiddleware, updateLeave)
 router.get('/detail/:id', authMiddleware, getLeaveDetail)
+router.get('/:id/:role', authMiddleware, getLeave)
+router.get('/', authMiddleware, getLeaves)
+router.put('/:id', authMiddleware, updateLeave)
 
 export default router

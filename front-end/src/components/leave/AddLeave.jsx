@@ -28,7 +28,7 @@ const AddLeave = () => {
         );
 
         if (response.data.success) {
-          navigate('/employee-dashboard/leaves')
+          navigate(`/employee-dashboard/leaves/${user._id}`)
         }
       } catch (err) {
         if (err.response && !err.response.data.success) {

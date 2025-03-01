@@ -82,7 +82,6 @@ export const columns = [
 
 export const EmployeeButtons = ({ _id }) => {
   const navigate = useNavigate();
-
   return (
     <div className="flex gap-4">
       <button
