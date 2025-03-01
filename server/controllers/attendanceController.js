@@ -35,4 +35,39 @@ const updateAttendance = async (req, res) => {
     }
 }
 
-export {getAttendance, updateAttendance}
+const attendanceReport = async (req, res) => {
+    try {
+        const {date, limit = 5, skip = 0} = req.query
+        const query = {}
+
+        if(date){
+            query.date = date
+        }
+
+        const attendanceData = await Attendance.find(query).populate({
+            path: "employeeId",
+            populate: [
+                'department',
+                'userId'
+            ]
+        }).sort({date: -1}).limit(parseInt(limit)).skip(parseInt(skip)) 
+
+        const groupData = attendanceData.reduce((result, record) => {
+            if(!result[record.date]){
+                result[record.date] = []
+            } 
+            result[record.date].push({
+                employeeId: record.employeeId.employeeId,
+                employeeName: record.employeeId.userId.name,
+                departmentName: record.employeeId.department.dep_name,
+                status: record.status || "Not Marked"
+            })
+            return result
+        }, {})
+        return res.status(201).json({success: true, groupData})
+    } catch (err) {
+        return res.status(500).json({success: false, error: err.message})
+    }
+}
+
+export {getAttendance, updateAttendance, attendanceReport}
