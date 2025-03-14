@@ -7,13 +7,13 @@ const login = async (req, res) => {
     const { email, password } = req.body;
     const user = await User.findOne({ email });
     if (!user) {
-      res.status(404).json({ success: false, error: "User Not Found" });
+      return res.status(404).json({ success: false, error: "User Not Found" });
     }
 
     const isMatch = await bcrypt.compare(password, user.password);
 
     if (!isMatch) {
-      res.status(404).json({ success: false, error: "Wrong Password" });
+      return res.status(404).json({ success: false, error: "Wrong Password" });
     }
 
     const token = jwt.sign(
@@ -22,7 +22,7 @@ const login = async (req, res) => {
       { expiresIn: "10d" }
     );
 
-    res
+    return res
       .status(200)
       .json({
         success: true,
@@ -30,7 +30,7 @@ const login = async (req, res) => {
         user: { _id: user.id, name: user.name, role: user.role },
       });
   } catch (err) {
-    res.status(500).json({success: false, error: err.message})
+    return res.status(500).json({success: false, error: err.message})
   }
 };
 
